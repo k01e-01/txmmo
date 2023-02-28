@@ -1,0 +1,113 @@
+@startuml high-level
+
+hide footbox
+title High-level overview of txmmo's architecture
+
+Actor user
+Participant view
+Participant controller
+Collections state
+Participant engine
+Participant server
+Participant distributor
+Database database
+
+activate distributor #LightGray
+
+== init ==
+
+note over engine : represents both\nclient and server\nengine
+
+user -> controller: start process
+activate controller
+controller -> state: init
+activate state
+controller -> view: init
+activate view
+view -> user: display
+controller -> distributor: open\nconnection
+
+controller -> server: request data
+activate server #LightGray
+server -> database: fetch data
+activate database #LightGray
+...
+database --> server: data
+deactivate database 
+server --> controller: reponse
+deactivate server 
+controller -> state: update data
+controller -> view: reflect
+view -> user: display
+
+
+== action ==
+
+alt local
+    user -> view: input
+    view -> controller: message
+    controller -> distributor: distrubute\naction
+    note right of distributor: verification of action\noccurs now
+else remote
+    distributor -> controller: receive\naction
+end
+
+
+controller -> controller: add to queue
+note left of controller: actions can be prioritized\nbased on creation time
+...
+controller --> controller: exit queue
+controller -> state: log action
+controller -> engine: send action
+activate engine
+note right of engine: engine in\nrust for perf
+engine -> state: fetch old data
+state --> engine: old data
+|||
+engine -> state: update data
+engine --> controller: return new\ndata
+deactivate engine
+
+controller -> server: verify and\nsave
+activate server #LightGray
+server -> engine: send actions 
+activate engine #LightGray
+engine -> database: fetch old data
+activate database #LightGray
+...
+database --> engine: old data
+deactivate database
+|||
+engine --> server: new data
+deactivate engine
+
+server -> server: compare data
+alt equal
+    server -> database: update data
+    activate database #LightGray
+    deactivate database
+    server -> controller: OK
+    deactivate server
+    controller -> view: reflect
+    view -> user: display
+else inequal
+    activate server #LightGray
+    server -> server: discard data
+    server -> controller: error
+    deactivate server
+    controller -> state: rollback
+end
+
+
+== stop ==
+
+controller -> state: deconstruct
+deactivate state
+controller -> view: exit
+deactivate view
+controller -> user: stopcode
+deactivate controller
+
+deactivate distributor
+
+@enduml

@@ -1,0 +1,11 @@
+@startuml high-level2
+
+hide footbox
+title High level overview of txmmo's architecture
+
+Participant view
+Queue socket
+Participant controller
+Database 
+
+@enduml

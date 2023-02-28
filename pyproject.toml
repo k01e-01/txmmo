@@ -1,0 +1,22 @@
+[project]
+name = "txmmo"
+version = "0.1.0"
+description = "A factory-building mmo built with python, rust and textual!"
+readme = "README.md"
+authors = [{name="k01e", email="<k01e.alm07@gmail.com>"}]
+requires-python = ">=3.9"
+
+
+[build-system]
+requires = ["maturin>=0.14,<0.15"]
+build-backend = "maturin"
+
+[dependencies]
+rich = "13.3.1"
+textual = "0.12.1"
+
+[project.scripts]
+txmmo = "txmmo.__main__:main"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
