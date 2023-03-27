@@ -8,7 +8,7 @@ fn helloworld() -> PyResult<String> {
 
 /// A Python module implemented in Rust.
 #[pymodule]
-fn mmocore(_py: Python, m: &PyModule) -> PyResult<()> {
+fn core(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(helloworld, m)?)?;
     Ok(())
 }
