@@ -1,7 +1,7 @@
 [project]
 name = "txmmo"
 version = "0.1.0"
-description = "A factory-building mmo built with python, rust and textual!"
+description = "A cli factory building mmo."
 readme = "README.md"
 authors = [{name="k01e", email="<k01e.alm07@gmail.com>"}]
 requires-python = ">=3.9"
