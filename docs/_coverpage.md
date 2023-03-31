@@ -6,4 +6,5 @@
 
 <small>(these docs exist because of a school asignment)</small>
 
-[Github]() [Getting Started](#txmmo)
+[Github]()
+[Getting Started](#txmmo)

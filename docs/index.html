@@ -11,12 +11,25 @@
 </head>
 <body>
   <div id="app"></div>
+  <script src="//cdn.jsdelivr.net/npm/docsify-plugin-carbon@1"></script>
   <script>
     window.$docsify = {
       name: 'txmmo',
       loadSidebar: true,
       coverpage: true,
       repo: '',
+      plugins: [
+          DocsifyCarbon.create('CEBI6KQE', 'docsifyjsorg'),
+          function (hook, vm) {
+            hook.beforeEach(function (html) {
+              return (
+                html +
+                '\n\n----\n\n' +
+                '<a href="https://docsify.js.org" target="_blank" style="color: inherit; font-weight: normal; text-decoration: none;">Powered by docsify</a>'
+              );
+            })
+          },
+        ],
     }
   </script>
   <!-- Docsify v4 -->
